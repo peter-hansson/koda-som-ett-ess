@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakturaHanteraren", "FakturaHanteraren.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakturaHanteraren.Tests", "..\FakturaHanteraren.Tests\FakturaHanteraren.Tests.csproj", "{EDE7681F-A8AE-8369-38EC-B6C0833A69FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,5 +16,12 @@ Global
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE7681F-A8AE-8369-38EC-B6C0833A69FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE7681F-A8AE-8369-38EC-B6C0833A69FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE7681F-A8AE-8369-38EC-B6C0833A69FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE7681F-A8AE-8369-38EC-B6C0833A69FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

@@ -53,11 +53,11 @@ class FakturaRepository(SqliteConnection c) : IFakturaRepository
         var status = (FakturaStatus)r.GetInt32(5);
         var totalt = r.GetDouble(6);
         var moms = r.GetDouble(7);
-        var kundNamn = r.GetString(11);
-        var orgNr = r.GetString(12);
-        var adress = r.GetString(13);
-        var postnr = r.GetString(14);
-        var ort = r.GetString(15);
+        var kundNamn = r.GetString(12);
+        var orgNr = r.GetString(13);
+        var adress = r.GetString(14);
+        var postnr = r.GetString(15);
+        var ort = r.GetString(16);
         r.Close();
 
         var rader = HämtaRader(id);

@@ -99,7 +99,7 @@ class KundRepository(SqliteConnection c) : IKundRepository
     public KundStatistik? HämtaStatistik(int id)
     {
         using var cmd = c.CreateCommand();
-        cmd.CommandText = "SELECT k.Namn, COUNT(f.Id), SUM(f.Totalt), SUM(CASE WHEN f.Status=@betald THEN f.Totalt ELSE 0 END), SUM(CASE WHEN f.Status<@betald THEN f.Totalt ELSE 0 END) FROM Kunder k LEFT JOIN Fakturor f ON k.Id=f.KundId WHERE k.Id=@id GROUP BY k.Namn";
+        cmd.CommandText = "SELECT k.Namn, COUNT(f.Id), COALESCE(SUM(f.Totalt),0), COALESCE(SUM(CASE WHEN f.Status=@betald THEN f.Totalt ELSE 0 END),0), COALESCE(SUM(CASE WHEN f.Status<@betald THEN f.Totalt ELSE 0 END),0) FROM Kunder k LEFT JOIN Fakturor f ON k.Id=f.KundId WHERE k.Id=@id GROUP BY k.Namn";
         cmd.Parameters.AddWithValue("@betald", (int)FakturaStatus.Betald);
         cmd.Parameters.AddWithValue("@id", id);
         using var r = cmd.ExecuteReader();

@@ -16,7 +16,7 @@ class BetalningsRepository(SqliteConnection c) : IBetalningsRepository
         using var cmd = c.CreateCommand();
         cmd.CommandText = "SELECT COALESCE(SUM(Belopp),0) FROM Betalningar WHERE FakturaId=@id";
         cmd.Parameters.AddWithValue("@id", fakturaId);
-        return (double)cmd.ExecuteScalar()!;
+        return Convert.ToDouble(cmd.ExecuteScalar()!);
     }
 
     public void Registrera(int fakturaId, double belopp, string metod, string referens)
