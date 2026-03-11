@@ -24,23 +24,39 @@ Använd AI för att analysera koden och besvara:
 - Vilka säkerhetsproblem kan du identifiera?
 - Vilka designproblem finns?
 
+- Prompt: kan du förklara vad denna applikation gör?
+gör en nogrann kodgranskning och skapa ett dokument under 1-fakturasystemet/docs
+koncentrera dig på säkerhet, testbarhet, förbättringsmöjligheter och annat du tycker är viktigt
+
+
 ### 2. 🏗️ Refaktorera till 3-skiktslösning
 Bryt upp koden i:
 - **Presentation** — Konsolens UI (menyer, inmatning, utskrifter)
 - **Affärslogik** — Regler, beräkningar, validering
 - **Dataåtkomst** — Repositories, databasinteraktion
 
-Tips: Använd AI för att föreslå en projektstruktur, skapa interfaces och flytta kod steg för steg.
+- Prompt: refaktorera applikationen enligt kodgranskningens rekommendationer
+jag vill att du skapar en Nuxt4 app som frontend, stilen ska vara en modern snygg webapp i finansvärlden, 
+använd färgschema från http://www.timepeoplegroup.se, skapa den i undermappen 1-fakturasystemet/frontend
+som backend vill jag ha ett .net minimal web api, skapa den i  undermappen 1-fakturasystemet/backend
+använd mcp-servern context7 om behöver hjälp med nuxt eller minimal web api
+
 
 ### 3. 🧪 Inför enhetstester
 - Skapa ett testprojekt
 - Skriv tester för affärslogiken (momsberäkningar, rabatter, påminnelseavgifter, etc.)
 - Mål: Minst 80% kodtäckning på affärslogikskiktet
 
+- Prompt: skapa omfattande enhetstester för backend, inkludera edge cases
+
+
+
 ### 4. 📝 Dokumentera
 - XML-dokumentation på publika metoder
 - En arkitekturbeskrivning (Mermaid-diagram eller liknande)
 - API-dokumentation för affärslogiklagret
+
+- Prompt: Dokumentera lösningen, skapa både omfattande användarhandledning och arkitekturdokument
 
 ## Kända problem i koden (hitta fler!)
 - SQL-injection överallt
