@@ -1,4 +1,4 @@
-# Övning 1: Kontext är kung
+# Övning 2: Kontext är kung
 
 **Tid:** ~15 minuter
 
@@ -9,7 +9,7 @@ Samma uppgift — två helt olika resultat.
 
 ## Steg 1: Utan kontext (2 min)
 
-Öppna Gemini CLI i en **tom mapp** och skriv:
+Öppna ditt AI-verktyg i en **tom mapp** och skriv:
 
 ```
 Bygg en CLI-app i Python som genererar lösenord
@@ -19,16 +19,27 @@ Titta på resultatet. Det fungerar troligen — men följer det några specifika
 
 ## Steg 2: Med kontext (5 min)
 
-Skapa en ny mapp och lägg till en kontextfil:
+Skapa en ny mapp och lägg till en kontextfil för ditt verktyg:
 
 ```bash
 mkdir losenord-app && cd losenord-app
 
-# För Gemini CLI:
-mkdir -p .gemini && cp ../../context-exempel/GEMINI.md .gemini/GEMINI.md
+# Gemini CLI:
+mkdir -p .gemini && cp ../../material/ovning2-kontext/GEMINI.md .gemini/GEMINI.md
 
-# För Claude Code (instruktören visar):
-# cp ../../context-exempel/CLAUDE.md ./CLAUDE.md
+# Claude Code:
+cp ../../material/ovning2-kontext/CLAUDE.md ./CLAUDE.md
+
+# Cursor:
+mkdir -p .cursor && cp ../../material/ovning2-kontext/cursor-rules .cursor/rules
+```
+
+**Eller be AI:n:**
+
+```
+Skapa en ny mapp som heter losenord-app. Kopiera rätt kontextfil
+från material/ovning2-kontext/ till mappen (GEMINI.md, CLAUDE.md
+eller cursor-rules beroende på vilket verktyg jag kör).
 ```
 
 Ge nu **exakt samma prompt**:
@@ -50,9 +61,10 @@ Jämför de två resultaten. Med kontextfilen borde du se:
 
 ## Steg 4: Utöka (5 min)
 
-Lägg till en förändring i kontextfilen och prova igen:
+Lägg till en ny regel i kontextfilen:
 
 ```
+Lägg till följande i kontextfilen:
 Alla CLI-appar ska stödja både --json och --text output-format.
 Standardformat är text. JSON-output ska vara giltig JSON på stdout.
 ```

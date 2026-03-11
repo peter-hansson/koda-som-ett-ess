@@ -1,0 +1,146 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '4-ai-review/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Hämta full diff, filtrera till bara övningsfilerna
+          gh pr diff ${{ github.event.pull_request.number }} > /tmp/full.diff
+          python3 << 'PYEOF' > /tmp/pr.diff
+          import re
+          ALLOWED = ("4-ai-review/",)
+          current_file_ok = False
+          with open("/tmp/full.diff") as f:
+              for line in f:
+                  if line.startswith("diff --git"):
+                      match = re.search(r" b/(.+)$", line)
+                      path = match.group(1) if match else ""
+                      current_file_ok = any(path.startswith(p) for p in ALLOWED)
+                  if current_file_ok:
+                      print(line, end="")
+          PYEOF
+          echo "diff_size=$(wc -c < /tmp/pr.diff | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Run AI review
+        if: steps.diff.outputs.diff_size != '0'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import os
+          import sys
+          import urllib.request
+
+          # Läs in kodstandard och diff
+          with open("material/ovning4-kodstandard/kodstandard.md") as f:
+              guidelines = f.read()
+          with open("/tmp/pr.diff") as f:
+              diff = f.read()
+
+          prompt = (
+              "Du är en senior kodgranskare på Solsidan Tech AB. "
+              "Granska denna pull request mot teamets kodstandard.\n\n"
+              "Svara på svenska. Var konstruktiv men strikt — koden måste följa standarden.\n\n"
+              "## Teamets kodstandard\n\n"
+              f"{guidelines}\n\n"
+              "## PR-diff att granska\n\n"
+              f"{diff}\n\n"
+              "## Instruktioner\n\n"
+              "Granska diffen punkt för punkt mot kodstandarden. För varje avvikelse:\n"
+              "1. Citera den relevanta regeln från kodstandarden\n"
+              "2. Visa vilken rad/fil som bryter mot regeln\n"
+              "3. Ge ett konkret förslag på hur det ska fixas\n\n"
+              "Avsluta med ett av dessa beslut:\n\n"
+              "Om koden följer standarden:\n"
+              "DECISION: APPROVE\n"
+              "Kort motivering.\n\n"
+              "Om koden bryter mot standarden:\n"
+              "DECISION: REQUEST_CHANGES\n"
+              "Sammanfattning av vad som måste åtgärdas."
+          )
+
+          payload = json.dumps({
+              "model": "claude-sonnet-4-20250514",
+              "max_tokens": 4096,
+              "messages": [{"role": "user", "content": prompt}],
+          }).encode()
+
+          req = urllib.request.Request(
+              "https://api.anthropic.com/v1/messages",
+              data=payload,
+              headers={
+                  "content-type": "application/json",
+                  "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+                  "anthropic-version": "2023-06-01",
+              },
+          )
+
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  data = json.loads(resp.read())
+          except urllib.error.HTTPError as e:
+              body = e.read().decode()
+              print(f"API-fel ({e.code}): {body}", file=sys.stderr)
+              sys.exit(1)
+
+          if "content" in data and len(data["content"]) > 0:
+              review = data["content"][0]["text"]
+          else:
+              review = "Kunde inte generera granskning. API-svar: " + json.dumps(data)
+
+          with open("/tmp/review.md", "w") as f:
+              f.write(review)
+
+          # Bestäm approve/request_changes
+          event = "APPROVE" if "DECISION: APPROVE" in review else "REQUEST_CHANGES"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"event={event}\n")
+          PYEOF
+        id: review
+
+      - name: Post review on PR
+        if: steps.diff.outputs.diff_size != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EVENT="${{ steps.review.outputs.event }}"
+
+          # Bygg review-body säkert via Python (undviker shell-expansion-problem)
+          python3 -c "
+          import json
+          with open('/tmp/review.md') as f:
+              review = f.read()
+          body = '## 🤖 AI-granskning mot teamets kodstandard\n\n'
+          body += review
+          body += '\n\n---\n'
+          body += '*Automatisk granskning av Solsidan Tech AB:s AI-reviewer. '
+          body += 'Koden granskas mot [kodstandard.md](https://github.com/${{ github.repository }}/blob/main/material/ovning4-kodstandard/kodstandard.md).*'
+          print(json.dumps(body))
+          " > /tmp/review-body.json
+
+          # Posta som PR review
+          jq -n --arg event "$EVENT" --argjson body "$(cat /tmp/review-body.json)" \
+            '{body: $body, event: $event}' | \
+          gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews \
+            --input -
