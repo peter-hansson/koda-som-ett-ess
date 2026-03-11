@@ -1,10 +1,10 @@
 # Slides — Pass 2: Koda som ett ess med AI
 
-Each slide is one exercise. Focus: methodology benefits and measurable gains.
+En slide per övning. Fokus: metodikens vinster och vad deltagarna tar med sig.
 
 ---
 
-## Slide 1: Kontext ar kung
+## Övning 2: Kontext är kung
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -16,8 +16,8 @@ Each slide is one exercise. Focus: methodology benefits and measurable gains.
 │  ┌─────────────────────┐   ┌──────────────────────────────┐ │
 │  │  UTAN kontext        │   │  MED CLAUDE.md (15 rader)    │ │
 │  │                      │   │                              │ │
-│  │  - Engelska texter   │   │  + Svenska hjalptexter       │ │
-│  │  - Inga type hints   │   │  + Type hints overallt       │ │
+│  │  - Engelska texter   │   │  + Svenska hjälptexter       │ │
+│  │  - Inga type hints   │   │  + Type hints överallt       │ │
 │  │  - Random struktur   │   │  + Tydliga exit-koder        │ │
 │  │  - pip install X     │   │  + Bara standardbiblioteket  │ │
 │  │  - Ingen felhantering│   │  + Docstrings, argparse      │ │
@@ -26,123 +26,124 @@ Each slide is one exercise. Focus: methodology benefits and measurable gains.
 │                                                             │
 │  VINSTER                                                    │
 │  ─────────────────────────────────────────────────          │
-│  - Teamet delar konventioner via git — alla far             │
+│  - Teamet delar konventioner via git — alla får             │
 │    samma AI-beteende, oavsett verktyg                       │
 │  - 15 rader kontext > 150 rader prompt-engineering          │
-│  - Ny regel i filen = AI foljer den automatiskt             │
+│  - Ny regel i filen = AI följer den automatiskt             │
 │    i alla framtida interaktioner                            │
-│  - Onboarding for AI = onboarding for nya utvecklare        │
+│  - Onboarding för AI = onboarding för nya utvecklare        │
 │                                                             │
 │  METODIK: Investera 10 min i .md-filen,                     │
-│           spar timmar i varje framtida session               │
+│           spara timmar i varje framtida session              │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Talarpunkter:**
-- CLAUDE.md/GEMINI.md ar som `.editorconfig` fast for AI
-- Kontext skalar — en gang skriven, anvands hundratals ganger
-- Prompten ar tillfallig, kontexten ar bestående
-- Teamkonventioner blir automatiskt genomdrivna
+- CLAUDE.md / GEMINI.md / cursor-rules — samma konventioner, alla verktyg
+- Kontexten skalar — skriv en gång, används hundratals gånger
+- Steg 4 visar det tydligt: lägg till --json/--text-regeln, AI följer den utan att du nämner det
+- Prompten är tillfällig, kontexten är bestående
 
 ---
 
-## Slide 2: TDD med AI
+## Övning 3: TDD med AI
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
-│          TESTER = EXECUTABLE SPECIFICATION                  │
+│          TESTER = KÖRBAR SPECIFIKATION                      │
 │                                                             │
 │  Traditionellt:             Med AI:                         │
 │                                                             │
-│  Manniska skriver spec  →  Manniska skriver TESTER          │
-│  Manniska implementerar →  AI implementerar                 │
-│  Manniska testar        →  AI kor + fixar + itererar        │
-│  Manniska fixar buggar  →  AI fixar tills gront             │
+│  Människa skriver spec  →  Människa skriver TESTER          │
+│  Människa implementerar →  AI implementerar                 │
+│  Människa testar        →  AI kör + fixar + itererar        │
+│  Människa fixar buggar  →  AI fixar tills grönt             │
 │                                                             │
 │  ┌─────────────────────────────────────────────────┐        │
-│  │  26 tester ──→ AI lasar ──→ implementerar       │        │
+│  │  26 tester ──→ AI läser ──→ implementerar       │        │
 │  │       ↑                          │               │        │
-│  │       └──── kor pytest ←─────────┘               │        │
-│  │             (1-3 iterationer till gront)          │        │
+│  │       └──── kör pytest ←─────────┘               │        │
+│  │             (1-3 iterationer till grönt)          │        │
 │  └─────────────────────────────────────────────────┘        │
 │                                                             │
 │  VINSTER                                                    │
 │  ─────────────────────────────────────────────────          │
-│  - Du fokuserar pa VAD (affarsregler),                      │
-│    AI:n pa HUR (implementation)                             │
-│  - Tester ar den mest exakta prompten du kan skriva         │
-│    — ingen tvetydighet, koerbar, verifierbar                │
-│  - AI itererar snabbare an du: impl → test → fix → test    │
-│  - Ny affarsregel? Skriv ETT test, AI implementerar         │
-│  - 100% testtackning fran dag 1                             │
+│  - Du fokuserar på VAD (affärsregler),                      │
+│    AI:n på HUR (implementation)                             │
+│  - Tester är den mest exakta prompten du kan skriva         │
+│    — ingen tvetydighet, körbar, verifierbar                 │
+│  - AI itererar snabbare än du: impl → test → fix → test    │
+│  - Ny affärsregel? Skriv ETT test, AI implementerar        │
+│  - Samma princip för logik OCH GUI (tkinter-tester)        │
 │                                                             │
-│  DEMO: 26 tester → booking.py pa ~2 min                    │
-│        Lagg till test_weekend_surcharge → klar pa 30 sek    │
+│  DEMO: 26 tester → booking.py på ~2 min                    │
+│        13 UI-tester → booking_ui.py på ~1 min              │
+│        test_weekend_surcharge → klar på 30 sek             │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Talarpunkter:**
-- Perfekt arbetsdelning: manniska specificerar, AI implementerar
-- Testerna AR specifikationen — inget "lost in translation"
-- Agentisk iteration: AI gor, kor, ser fel, fixar, upprepar
-- Lagg till en ny regel = skriv ett test + "fix it"
-- Deltagarna ser AI:n arbeta i realtid
+- Perfekt arbetsdelning: människa specificerar, AI implementerar
+- Testerna ÄR specifikationen — inget "lost in translation"
+- Agentisk iteration: AI gör, kör, ser fel, fixar, upprepar
+- Steg 5: deltagaren skriver SJÄLV ett test — ser direkt att det funkar
+- Fungerar för backend OCH GUI — tester definierar beteendet
 
 ---
 
-## Slide 3: Agentisk kodning och AI-review
+## Övning 4: AI-review mot kodstandarden
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
-│        PROFESSIONELLT ARBETSFLODE MED AI                    │
+│        PROFESSIONELLT ARBETSFLÖDE MED AI                    │
 │                                                             │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │ 1. BRANCH│→ │ 2. KODA  │→ │ 3. PR    │→ │ 4. REVIEW│   │
-│  │          │  │  med AI  │  │          │  │  av AI   │   │
+│  │ 1. FORK  │→ │ 2. KODA  │→ │ 3. PR    │→ │ 4. REVIEW│   │
+│  │ + BRANCH │  │  med AI  │  │          │  │  av AI   │   │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
 │                     │                           │           │
 │                     ▼                           ▼           │
 │              AI som skribent             AI som granskare   │
-│              (Gemini/Claude)             (Claude i CI/CD)   │
+│              (Gemini/Claude)          (Claude i GitHub Action)│
 │                                                             │
-│  TVASIDIGT AI-SKYDD                                         │
+│  TVÅSIDIGT AI-SKYDD                                        │
 │  ─────────────────────────────────────────────────          │
-│  - Skrivande AI foljer kontextfilen (ovning 1)              │
-│  - Tester fangar logikfel (ovning 2)                        │
-│  - Granskande AI fangar stilfel mot kodstandarden            │
-│  - Manniskan gor slutgranskning                             │
+│  - Skrivande AI följer kontextfilen (övning 2)             │
+│  - Tester fångar logikfel (övning 3)                       │
+│  - Granskande AI fångar stilfel mot kodstandard.md          │
+│  - Merge blockeras vid avvikelser — människa godkänner     │
 │                                                             │
 │  VINSTER                                                    │
 │  ─────────────────────────────────────────────────          │
-│  - AI skiner vid mekaniska uppgifter:                       │
-│    refaktorering, tester, migrering                         │
-│  - Du ar GRANSKARE, inte SKRIBENT — hogre niva              │
-│  - Automatisk kvalitetsgrind i CI/CD                        │
+│  - Automatisk kvalitetsgrind på varje PR                    │
 │  - Kodstandarden genomdrivs konsekvent —                    │
-│    ingen "det dar later vi ga den har gangen"               │
-│  - Olika AI:er vid skrivning vs granskning =                │
-│    farska ogon, fangar fler problem                         │
+│    ingen "det där låter vi gå den här gången"              │
+│  - Olika AI vid skrivning vs granskning =                   │
+│    fräscha ögon, fångar fler problem                       │
+│  - Du är GRANSKARE, inte SKRIBENT — högre nivå             │
+│  - AI ersätter inte mänsklig granskning —                   │
+│    men den fångar det du missar                            │
 │                                                             │
-│  RESULTAT: fran messy legacy-kod till ren struktur          │
-│            med tester — pa 10 minuter                       │
+│  FLÖDE: fork → branch → koda → commit → PR →               │
+│         AI-review → fixa → ny review → merge               │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **Talarpunkter:**
-- Speglar riktigt utvecklararbetsflode: branch → kod → PR → review
-- Tester forst skapar skyddsnat innan refaktorering
-- AI-review mot kodstandard ar som en extra senior kollega som aldrig ar trott
-- Merge-block vid regelbrott — kvalitet genomdrivs automatiskt
-- Ovning 3 knyter ihop allt: kontext + TDD + agentiskt arbete + granskning
+- Speglar riktigt utvecklararbetsflöde: fork → branch → PR → review
+- kodstandard.md styr granskningen — utan den ger AI:n generisk feedback
+- Samma princip som övning 2: kontext förändrar allt, även vid granskning
+- AI:n som skrev koden hittar sällan sina egna misstag — byt AI-session!
+- Övning 4 knyter ihop allt: kontext + TDD + agentiskt arbete + granskning
 
 ---
 
-## Sammanfattningsslide
+## Sammanfattning
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -150,22 +151,22 @@ Each slide is one exercise. Focus: methodology benefits and measurable gains.
 │              TRE PRINCIPER ATT TA MED                       │
 │                                                             │
 │                                                             │
-│  1. KONTEXT FORST                                           │
+│  1. KONTEXT FÖRST              (övning 2)                   │
 │     15 rader i en .md-fil > clevera prompts                 │
-│     Hela teamet far konsekvent AI-beteende                  │
+│     Hela teamet får konsekvent AI-beteende                  │
 │                                                             │
 │                                                             │
-│  2. TESTER SOM SPEC                                         │
-│     Skriv vad du vill ha, lat AI skriva hur                 │
-│     Manniska specificerar, AI implementerar och itererar     │
+│  2. TESTER SOM SPEC            (övning 3)                   │
+│     Skriv vad du vill ha, låt AI skriva hur                 │
+│     Människa specificerar, AI implementerar och itererar    │
 │                                                             │
 │                                                             │
-│  3. AI SOM KOLLEGA, INTE VERKTYG                            │
-│     Ge uppdraget, lat agenten jobba                         │
-│     Du granskar — hogre niva, battre resultat               │
+│  3. AI SOM KOLLEGA, INTE VERKTYG   (övning 4)              │
+│     Ge uppdraget, låt agenten jobba                         │
+│     Du granskar — högre nivå, bättre resultat              │
 │                                                             │
 │                                                             │
-│  Gemensam namnare: du hojer dig fran                        │
+│  Gemensam nämnare: du höjer dig från                        │
 │  SKRIBENT till ARKITEKT och GRANSKARE                       │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
