@@ -295,26 +295,31 @@ class TestExercise4Flow:
         )
         assert "deltagare/testsson/ovning4" in result.stdout
 
-    def test_step2_alt_a_weather_app_exists(self, git_repo):
-        """Steg 2 Alt A: Väderappen finns att arbeta med."""
-        weather = git_repo / "4-ai-review" / "src" / "weather_app.py"
-        assert weather.is_file()
-        content = weather.read_text()
-        assert "def hämta_väder" in content
+    def test_step2_alt_a_copy_weather_app_to_own_dir(self, git_repo):
+        """Steg 2 Alt A: Deltagaren kopierar väderappen till sin mapp."""
+        exercise4 = git_repo / "4-ai-review"
+        user_dir = exercise4 / "testsson"
+        user_dir.mkdir()
+        shutil.copy(exercise4 / "src" / "weather_app.py", user_dir / "weather_app.py")
 
-    def test_step2_alt_b_copy_booking_system(self, git_repo):
-        """Steg 2 Alt B: Deltagaren kopierar bokningssystemet."""
+        assert (user_dir / "weather_app.py").is_file()
+        assert "def hämta_väder" in (user_dir / "weather_app.py").read_text()
+
+    def test_step2_alt_b_copy_booking_system_to_own_dir(self, git_repo):
+        """Steg 2 Alt B: Deltagaren kopierar bokningssystemet till sin mapp."""
         exercise4 = git_repo / "4-ai-review"
         exercise3 = git_repo / "3-tdd-med-ai"
+        user_dir = exercise4 / "testsson"
+        user_dir.mkdir()
 
-        shutil.copytree(exercise3 / "src", exercise4 / "src", dirs_exist_ok=True)
-        shutil.copytree(exercise3 / "tests", exercise4 / "tests", dirs_exist_ok=True)
+        shutil.copytree(exercise3 / "src", user_dir / "src")
+        shutil.copytree(exercise3 / "tests", user_dir / "tests")
 
-        assert (exercise4 / "src" / "booking.py").is_file()
-        assert (exercise4 / "tests" / "test_booking.py").is_file()
+        assert (user_dir / "src" / "booking.py").is_file()
+        assert (user_dir / "tests" / "test_booking.py").is_file()
 
-    def test_step3_commit_changes(self, git_repo):
-        """Steg 3: Deltagaren committar sina ändringar."""
+    def test_step3_commit_changes_in_own_dir(self, git_repo):
+        """Steg 3: Deltagaren committar ändringar i sin unika mapp."""
         env = {
             **__import__("os").environ,
             "GIT_AUTHOR_NAME": "Test",
@@ -328,9 +333,10 @@ class TestExercise4Flow:
             cwd=git_repo, capture_output=True,
         )
 
-        # Simulera en ändring
-        exercise4 = git_repo / "4-ai-review"
-        (exercise4 / "src" / "my_solution.py").write_text("# Min lösning\nprint('hej')\n")
+        # Simulera en ändring i deltagarens unika mapp
+        user_dir = git_repo / "4-ai-review" / "testsson"
+        user_dir.mkdir()
+        (user_dir / "my_solution.py").write_text("# Min lösning\nprint('hej')\n")
 
         subprocess.run(["git", "add", "."], cwd=git_repo, capture_output=True)
         result = subprocess.run(

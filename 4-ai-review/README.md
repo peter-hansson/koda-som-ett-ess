@@ -37,34 +37,41 @@ git checkout -b deltagare/<ditt-namn>/ovning4
 Skapa en ny branch som heter deltagare/<mitt-namn>/ovning4 och byt till den.
 ```
 
-**Viktigt:** All kod måste ligga under `4-ai-review/` — annars
-triggas inte den automatiska AI-reviewen på din PR.
+**Viktigt:** All kod måste ligga under din **egen mapp** `4-ai-review/<ditt-namn>/`.
+Varje deltagare har en unik mapp — annars krockar era PR:er med varandra.
 
 Välj **en** av dessa uppgifter (eller hitta på en egen):
 
 ### Alt A: Förbättra väderappen
 
-`4-ai-review/src/weather_app.py` är en rörig legacy-app.
-Be AI:n refaktorera den — med tester som skyddsnät:
-
-```
-Läs src/weather_app.py. Skriv tester som täcker befintlig funktionalitet
-(mocka HTTP-anropen). Refaktorera sedan till ren kodstruktur med separata
-moduler, type hints och konstanter. Testerna ska passera efter varje ändring.
-```
-
-### Alt B: Utöka bokningssystemet
-
-Kopiera bokningssystemet hit först:
+Kopiera väderappen till din mapp och refaktorera:
 
 ```bash
-cp -r ../3-tdd-med-ai/src ../3-tdd-med-ai/tests .
+mkdir -p 4-ai-review/<ditt-namn>
+cp 4-ai-review/src/weather_app.py 4-ai-review/<ditt-namn>/
 ```
 
 **Eller be AI:n:**
 
 ```
-Kopiera src/ och tests/ från 3-tdd-med-ai/ till 4-ai-review/
+Skapa mappen 4-ai-review/<mitt-namn>/ och kopiera weather_app.py dit.
+Skriv tester som täcker befintlig funktionalitet (mocka HTTP-anropen).
+Refaktorera sedan till ren kodstruktur med type hints och konstanter.
+```
+
+### Alt B: Utöka bokningssystemet
+
+Kopiera bokningssystemet till din mapp:
+
+```bash
+mkdir -p 4-ai-review/<ditt-namn>
+cp -r 3-tdd-med-ai/src 3-tdd-med-ai/tests 4-ai-review/<ditt-namn>/
+```
+
+**Eller be AI:n:**
+
+```
+Skapa mappen 4-ai-review/<mitt-namn>/ och kopiera src/ och tests/ från 3-tdd-med-ai/ dit.
 ```
 
 Lägg sedan till en ny funktion. Idéer:
@@ -76,8 +83,13 @@ Skriv tester först, låt AI:n implementera.
 
 ### Alt C: Bygg något helt nytt
 
-Skapa en ny mapp `4-ai-review/src/<ditt-namn>/` och
-bygg vad du vill. Förslag:
+Skapa din mapp och bygg vad du vill:
+
+```bash
+mkdir -p 4-ai-review/<ditt-namn>
+```
+
+Förslag:
 - En quiz om AI-kodning
 - En CLI som hämtar nyheter
 - Ett spel i terminalen
