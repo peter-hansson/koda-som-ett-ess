@@ -8,7 +8,7 @@ Praktisk workshop om de bästa teknikerna med moderna AI-kodverktyg.
 |------|-----|----------|
 | **Pass 1** (~60 min) | Peter | FakturaHanteraren: analysera, refaktorera, testa, dokumentera |
 | Middag | | ~30 min |
-| **Pass 2** (~75 min) | Anders | Avancerade tekniker — kontext, TDD, agentisk kodning |
+| **Pass 2** (~75 min) | Anders | Kontext, TDD, agentisk kodning |
 
 ## Verktyg
 
